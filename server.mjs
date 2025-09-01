@@ -11,9 +11,14 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Import CJS orchestrator; default will be the module.exports object
-import detectionOrchestrator from './server/services/detectionOrchestrator.js';
-const { start: startDetection, status: detectionStatus } = detectionOrchestrator;
+// ESM <-> CJS bridge
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+
+// Load orchestrator with require()
+const { start: startDetection, status: detectionStatus } =
+  require('./server/services/detectionOrchestrator.js');
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;

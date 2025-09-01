@@ -1,20 +1,29 @@
 {
   "name": "apexfrontendui",
   "version": "1.0.0",
-  "description": "",
+  "description": "APEX UI dev server and frontend",
   "private": true,
   "type": "module",
   "main": "server.mjs",
   "scripts": {
     "start": "node server.mjs",
+    "dev": "nodemon server.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "apex",
+    "frontend",
+    "express",
+    "audit"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }
