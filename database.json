@@ -1,0 +1,254 @@
+{
+  "mock_lookups": {
+    "administrators": [
+      { "id": "ADM-SSNC", "name": "SS&C" },
+      { "id": "ADM-TRIDENT", "name": "Trident" },
+      { "id": "ADM-CITCO", "name": "Citco" }
+    ],
+    "custodians": [
+      { "id": "CUST-CS", "name": "Credit Suisse" },
+      { "id": "CUST-JPM", "name": "J.P. Morgan" }
+    ],
+    "engagements": [
+      {
+        "id": "ENG10234000",
+        "name": "Evergreen Growth Fund 2024 Audit",
+        "administrator_id": "ADM-SSNC",
+        "period_end": "31 Dec 2025",
+        "period_end_iso": "2025-12-31",
+        "funds": [
+          { "id": "ENG10234001", "name": "Evergreen Growth Fund, LP" }
+        ]
+      },
+      {
+        "id": "ENG20456000",
+        "name": "Blue Ocean Multi-Strategy 2024",
+        "administrator_id": "ADM-TRIDENT",
+        "period_end": "31 Dec 2025",
+        "period_end_iso": "2025-12-31",
+        "funds": [
+          { "id": "ENG20456001", "name": "Blue Ocean Master Fund" }
+        ]
+      },
+      {
+        "id": "ENG30999000",
+        "name": "Cayman Credit Opportunities 2024",
+        "administrator_id": "ADM-CITCO",
+        "period_end": "31 Dec 2025",
+        "period_end_iso": "2025-12-31",
+        "funds": [
+          { "id": "ENG30999001", "name": "Cayman Credit Opportunities Fund A" },
+          { "id": "ENG30999002", "name": "Cayman Credit Opportunities Fund B" }
+        ]
+      }
+    ]
+  },
+
+  "system_data": {
+    "schema_version": "1.0.0",
+    "generated_at": "2025-08-26T00:00:00Z",
+
+    "learning_data": {
+      "learned_mappings": {
+        "by_admin": {},
+        "general": {}
+      },
+      "knowledge_base": {
+        "by_admin": {},
+        "general": {}
+      },
+      "attribute_rules": {}
+    },
+
+    "routines": [
+      {
+        "id": "RTN-EV",
+        "code": "EV",
+        "name": "Existence & Valuation",
+        "required_files": [
+          {
+            "key": "npd_options_pricing_report",
+            "human_name": "NPD Options Pricing Report",
+            "required": false,
+            "import": {
+              "formats": ["xlsx", "xls", "csv"]
+            },
+            "export": null
+          },
+          {
+            "key": "npd_pricing_report",
+            "human_name": "NPD Pricing Report",
+            "required": true,
+            "import": {
+              "formats": ["xlsx", "xls", "csv"]
+            },
+            "export": null
+          },
+          {
+            "key": "period_end_broker_custodian_holdings",
+            "human_name": "Period End Broker/Custodian Holdings",
+            "required": true,
+            "import": {
+              "formats": ["xlsx", "xls", "csv"]
+            },
+            "export": null
+          },
+          {
+            "key": "period_end_broker_custodian_unsettled",
+            "human_name": "Period End Broker/Custodian Unsettled Transactions",
+            "required": true,
+            "import": {
+              "formats": ["xlsx", "xls", "csv"]
+            },
+            "export": null
+          },
+          {
+            "key": "period_end_soi",
+            "human_name": "Period End Schedule of Investments",
+            "required": true,
+            "import": {
+              "formats": ["xlsx", "xls", "csv"]
+            },
+            "export": {
+              "format": "csv",
+              "filename": "Period-End SOI.csv"
+            }
+          }
+        ]
+      },
+      {
+        "id": "RTN-FVCRF",
+        "code": "FVCRF",
+        "name": "Fair Value & Cost Roll Forward",
+        "required_files": [
+          {
+            "key": "period_end_soi",
+            "human_name": "Period End Schedule of Investments",
+            "required": true,
+            "import": {
+              "formats": ["xlsx", "xls", "csv"]
+            },
+            "export": {
+              "format": "csv",
+              "filename": "Period-End SOI.csv"
+            }
+          },
+          {
+            "key": "prior_period_end_soi",
+            "human_name": "Prior Period End Schedule of Investments",
+            "required": true,
+            "import": {
+              "formats": ["xlsx", "xls", "csv"]
+            },
+            "export": {
+              "format": "csv",
+              "filename": "Prior Period-End SOI.csv"
+            }
+          },
+          {
+            "key": "purchases_and_sales_report",
+            "human_name": "Purchases & Sales Report",
+            "required": true,
+            "import": {
+              "formats": ["xlsx", "xls", "csv"]
+            },
+            "export": {
+              "format": "csv",
+              "filename": "P&S Report.csv"
+            }
+          }
+        ]
+      }
+    ],
+
+    "report_field_specs": {
+      "period_end_soi": {
+        "id": "SPEC-PERIOD-END-SOI",
+        "report_key": "period_end_soi",
+        "label": "Period End Schedule of Investments",
+        "detectors": {
+          "tab_name_patterns": ["schedule of investments", "soi$", "investments$"],
+          "header_keywords": ["SecurityName", "SecurityID", "SecurityType", "MarketValueBase", "Quantity"],
+          "min_keyword_hits": 3
+        },
+        "fields": [
+          { "key": "CUSIP", "label": "CUSIP", "required": false, "type": "string", "order": 1, "aliases": ["cusip", "cusip_number"] },
+          { "key": "ISIN", "label": "ISIN", "required": false, "type": "string", "order": 2, "aliases": ["isin", "isin_code"] },
+          { "key": "SEDOL", "label": "SEDOL", "required": false, "type": "string", "order": 3, "aliases": ["sedol"] },
+          { "key": "TICKER", "label": "TICKER", "required": false, "type": "string", "order": 4, "aliases": ["ticker", "symbol", "security_ticker"] },
+          { "key": "Exposure", "label": "Exposure", "required": true, "type": "number", "order": 5, "aliases": ["exposure"] },
+          { "key": "SecurityCurrency", "label": "SecurityCurrency", "required": true, "type": "string", "order": 6, "aliases": ["sec_currency", "security_currency", "ccy"] },
+          { "key": "SecurityID", "label": "SecurityID", "required": true, "type": "string", "order": 7, "aliases": ["security_id", "id"] },
+          { "key": "SecurityName", "label": "SecurityName", "required": true, "type": "string", "order": 8, "aliases": ["security_name", "name", "description"] },
+          { "key": "SecurityType", "label": "SecurityType", "required": true, "type": "string", "order": 9, "aliases": ["security_type", "asset_type", "instrument_type"] },
+          { "key": "MarketValueBase", "label": "MarketValueBase", "required": true, "type": "number", "order": 10, "aliases": ["mv_base", "market_value_base", "marketvalue_base"] },
+          { "key": "MarketValueLocal", "label": "MarketValueLocal", "required": true, "type": "number", "order": 11, "aliases": ["mv_local", "market_value_local", "marketvalue_local"] },
+          { "key": "NetCostBase", "label": "NetCostBase", "required": true, "type": "number", "order": 12, "aliases": ["cost_base", "net_cost_base"] },
+          { "key": "NetCostLocal", "label": "NetCostLocal", "required": true, "type": "number", "order": 13, "aliases": ["cost_local", "net_cost_local"] },
+          { "key": "Quantity", "label": "Quantity", "required": true, "type": "number", "order": 14, "aliases": ["qty", "shares", "units"] }
+        ]
+      },
+      "prior_period_end_soi": {
+        "id": "SPEC-PRIOR-PERIOD-END-SOI",
+        "report_key": "prior_period_end_soi",
+        "label": "Prior Period End Schedule of Investments",
+        "detectors": {
+          "tab_name_patterns": ["prior period", "pp so(i)?", "prior soi"],
+          "header_keywords": ["SecurityName", "SecurityID", "SecurityType", "MarketValueBase", "Quantity"],
+          "min_keyword_hits": 3
+        },
+        "fields": [
+          { "key": "Exposure", "label": "Exposure", "required": true, "type": "number", "order": 1, "aliases": ["exposure"] },
+          { "key": "SecurityCurrency", "label": "SecurityCurrency", "required": true, "type": "string", "order": 2, "aliases": ["sec_currency", "security_currency", "ccy"] },
+          { "key": "SecurityID", "label": "SecurityID", "required": true, "type": "string", "order": 3, "aliases": ["security_id", "id"] },
+          { "key": "SecurityName", "label": "SecurityName", "required": true, "type": "string", "order": 4, "aliases": ["security_name", "name", "description"] },
+          { "key": "SecurityType", "label": "SecurityType", "required": true, "type": "string", "order": 5, "aliases": ["security_type", "asset_type", "instrument_type"] },
+          { "key": "MarketValueBase", "label": "MarketValueBase", "required": true, "type": "number", "order": 6, "aliases": ["mv_base", "market_value_base", "marketvalue_base"] },
+          { "key": "MarketValueLocal", "label": "MarketValueLocal", "required": true, "type": "number", "order": 7, "aliases": ["mv_local", "market_value_local", "marketvalue_local"] },
+          { "key": "NetCostBase", "label": "NetCostBase", "required": true, "type": "number", "order": 8, "aliases": ["cost_base", "net_cost_base"] },
+          { "key": "NetCostLocal", "label": "NetCostLocal", "required": true, "type": "number", "order": 9, "aliases": ["cost_local", "net_cost_local"] },
+          { "key": "Quantity", "label": "Quantity", "required": true, "type": "number", "order": 10, "aliases": ["qty", "shares", "units"] }
+        ]
+      },
+      "purchases_and_sales_report": {
+        "id": "SPEC-PNS",
+        "report_key": "purchases_and_sales_report",
+        "label": "Purchases & Sales Report",
+        "detectors": {
+          "tab_name_patterns": ["purchases", "sales", "p&s", "purchases & sales"],
+          "header_keywords": ["TransactionType", "NetCostBase", "NetProceedsBase", "NetRealized", "Quantity"],
+          "min_keyword_hits": 3
+        },
+        "fields": [
+          { "key": "CUSIP", "label": "CUSIP", "required": false, "type": "string", "order": 1, "aliases": ["cusip", "cusip_number"] },
+          { "key": "ISIN", "label": "ISIN", "required": false, "type": "string", "order": 2, "aliases": ["isin", "isin_code"] },
+          { "key": "SEDOL", "label": "SEDOL", "required": false, "type": "string", "order": 3, "aliases": ["sedol"] },
+          { "key": "TICKER", "label": "TICKER", "required": false, "type": "string", "order": 4, "aliases": ["ticker", "symbol", "security_ticker"] },
+
+          { "key": "Exposure", "label": "Exposure", "required": true, "type": "number", "order": 5, "aliases": ["exposure"] },
+          { "key": "SecurityCurrency", "label": "SecurityCurrency", "required": true, "type": "string", "order": 6, "aliases": ["sec_currency", "security_currency", "ccy"] },
+          { "key": "SecurityID", "label": "SecurityID", "required": true, "type": "string", "order": 7, "aliases": ["security_id", "id"] },
+          { "key": "SecurityName", "label": "SecurityName", "required": true, "type": "string", "order": 8, "aliases": ["security_name", "name", "description"] },
+          { "key": "SecurityType", "label": "SecurityType", "required": true, "type": "string", "order": 9, "aliases": ["security_type", "asset_type", "instrument_type"] },
+          { "key": "TransactionType", "label": "TransactionType", "required": true, "type": "string", "order": 10, "aliases": ["txn_type", "transaction_type", "buy_sell"] },
+          { "key": "AmortizationAccretion", "label": "AmortizationAccretion", "required": true, "type": "number", "order": 11, "aliases": ["amort_accretion", "amortization_accretion"] },
+
+          { "key": "InitiationOrderID", "label": "InitiationOrderID", "required": true, "type": "string", "order": 12, "aliases": ["init_order_id", "initiation_order_id"] },
+          { "key": "InitiationSettleDate", "label": "InitiationSettleDate", "required": true, "type": "date", "order": 13, "aliases": ["init_settle_date", "initiation_settle_date"] },
+          { "key": "InitiationTradeDate", "label": "InitiationTradeDate", "required": true, "type": "date", "order": 14, "aliases": ["init_trade_date", "initiation_trade_date"] },
+
+          { "key": "LiquidationOrderID", "label": "LiquidationOrderID", "required": true, "type": "string", "order": 15, "aliases": ["liq_order_id", "liquidation_order_id"] },
+          { "key": "LiquidationSettleDate", "label": "LiquidationSettleDate", "required": true, "type": "date", "order": 16, "aliases": ["liq_settle_date", "liquidation_settle_date"] },
+          { "key": "LiquidationTradeDate", "label": "LiquidationTradeDate", "required": true, "type": "date", "order": 17, "aliases": ["liq_trade_date", "liquidation_trade_date"] },
+
+          { "key": "NetCostBase", "label": "NetCostBase", "required": true, "type": "number", "order": 18, "aliases": ["cost_base", "net_cost_base"] },
+          { "key": "NetCostLocal", "label": "NetCostLocal", "required": true, "type": "number", "order": 19, "aliases": ["cost_local", "net_cost_local"] },
+          { "key": "NetProceedsBase", "label": "NetProceedsBase", "required": true, "type": "number", "order": 20, "aliases": ["proceeds_base", "net_proceeds_base"] },
+          { "key": "NetProceedsLocal", "label": "NetProceedsLocal", "required": true, "type": "number", "order": 21, "aliases": ["proceeds_local", "net_proceeds_local"] },
+          { "key": "NetRealized", "label": "NetRealized", "required": true, "type": "number", "order": 22, "aliases": ["net_realized", "realized_pnl", "realized_gain_loss"] },
+          { "key": "Quantity", "label": "Quantity", "required": true, "type": "number", "order": 23, "aliases": ["qty", "shares", "units"] }
+        ]
+      }
+    }
+  }
+}

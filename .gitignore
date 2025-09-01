@@ -1,0 +1,17 @@
+﻿# Node
+node_modules/
+npm-debug.log*
+yarn.lock
+package-lock.json
+
+# Upload artifacts
+uploads/
+*.tmp
+*.log
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Local env
+.env

@@ -1,0 +1,321 @@
+/* ---------- Theme Tokens ---------- */
+:root{
+  --classic-blue:#0d2a66;
+  --accent:#4f7cff;
+  --accent-2:#8a3ffc;
+  --text:#223049;
+  --muted:#6a7a96;
+  --panel:#f7f9fc;
+  --hover-surface:#eef3ff;
+  --outline:#d9e1ee;
+  --success:#16a34a;
+  --info:#2563eb;
+  --warning:#f59e0b;
+  --neutral:#64748b;
+  --bg:#ffffff;
+  --shadow-1: 0 8px 20px rgba(13,42,102,.07);
+  --focus-ring: 0 0 0 3px rgba(79,124,255,.18);
+}
+
+/* ---------- Global ---------- */
+*{ box-sizing: border-box; }
+html, body{ height:100%; }
+body.apex{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  color:var(--text);
+  background:var(--bg);
+}
+
+/* ---------- Header ---------- */
+.topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 14px; border-bottom:1px solid var(--outline);
+  background:#fff; position:sticky; top:0; z-index:10;
+}
+.brand{ display:flex; align-items:center; gap:12px; }
+.logo{ height:28px; display:block; }
+.logo.kpmg{ height:56px; }
+.logo.apex{ height:68px; filter: drop-shadow(0 2px 4px rgba(0,0,0,.04)); }
+.divider{ width:1px; height:22px; background:var(--outline); }
+.product-title{ margin:0 0 0 6px; font-size:1.05rem; color:var(--classic-blue); letter-spacing:.2px; }
+.session-mini{ display:flex; gap:14px; color:var(--muted); font-size:.92rem; }
+.session-mini .mini-item strong{ color:var(--text); }
+
+/* ---------- Progress bar ---------- */
+.progress{
+  padding:8px 14px; background:#fff; border-bottom:1px solid var(--outline);
+}
+.progress ol{
+  list-style:none; margin:0; padding:0;
+  display:flex; justify-content:space-between; /* evenly spaced */
+  color:var(--muted); font-size:.92rem;
+}
+.progress li{
+  display:flex; align-items:center; gap:8px;
+  flex:1; justify-content:center;
+  cursor:pointer; border-radius:8px; padding:6px 4px;
+  transition: background .12s ease, color .12s ease;
+}
+.progress li:hover{ background:#f5f8ff; color:var(--classic-blue); }
+.progress .step-dot{
+  width:10px; height:10px; border-radius:50%;
+  border:2px solid var(--outline); background:#fff;
+}
+.progress li.active{ color:var(--classic-blue); font-weight:600; }
+.progress li.active .step-dot{ border-color:#16a34a; background:#16a34a; }
+
+/* ---------- Page Head ---------- */
+.page-head{
+  padding:12px 16px; display:flex; align-items:center;
+  justify-content:space-between; gap:12px;
+}
+.page-head h2{ margin:0; color:var(--classic-blue); font-size:1.3rem; }
+.page-head .hint{ color:var(--muted); font-size:.9rem; }
+
+/* ---------- Grid ---------- */
+.grid{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap:16px;
+  padding:0 16px 24px;
+}
+.span-12{ grid-column: span 12; }
+.span-6{ grid-column: span 6; }
+.span-4{ grid-column: span 4; }
+@media (max-width: 1200px){
+  .span-4{ grid-column: span 6; }
+}
+@media (max-width: 960px){
+  .span-6, .span-12, .span-4{ grid-column: span 12; }
+}
+
+/* ---------- Pill Cards ---------- */
+.pill-card{
+  background:var(--panel);
+  border:1px solid var(--outline);
+  border-radius:16px;
+  padding:16px;
+  box-shadow: var(--shadow-1);
+  overflow:hidden; /* contain scrollable children */
+}
+.pill-card h3{ margin:0 0 6px 0; color:var(--classic-blue); font-size:1.1rem; }
+.pill-card .sub{ margin:0 0 12px 0; color:var(--muted); font-size:.95rem; }
+.card-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px; }
+
+/* Badges */
+.badge{
+  font-size:.75rem; padding:4px 8px; border-radius:999px; border:1px solid var(--outline); background:#fff; color:var(--muted);
+}
+.badge.success{ color:#0a7d38; border-color:#cde8d5; background:#eef9f2; }
+.badge.info{ color:#0b57d0; border-color:#d7e6ff; background:#f1f6ff; }
+.badge.neutral{ color:var(--neutral); background:#f6f7fb; }
+
+/* Key/Value inline list */
+.kv{ display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:8px; }
+.kv .k{ display:block; font-size:.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:.25px; }
+.kv .v{ display:block; font-weight:700; color:var(--text); }
+
+/* ---------- Checklists ---------- */
+.checklist{ list-style:none; margin:0; padding:0; display:grid; gap:6px; max-height:260px; overflow:auto; }
+.chk{ display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:12px; background:#fff; border:1px solid var(--outline); }
+.chk:hover{ background:var(--hover-surface); border-color:#b9c6ff; box-shadow: var(--focus-ring); }
+.chk input[type="checkbox"]{
+  width:16px; height:16px;
+  accent-color:#16a34a; /* ✅ green checks */
+}
+.chk .req{ margin-left:auto; font-size:.8rem; color:#0a7d38; background:#ecfdf3; border:1px solid #c3f0d6; padding:2px 8px; border-radius:999px; }
+
+/* ---------- Dropzone ---------- */
+.dropzone{
+  background:#fff; border:2px dashed #c9d6ef; border-radius:14px; padding:22px; text-align:center;
+  transition:border-color .15s ease, background .15s ease, box-shadow .15s ease;
+}
+.dropzone:hover{ background:#f7fbff; border-color:#92b0ff; box-shadow: var(--focus-ring); }
+.dz-title{ margin:0; font-weight:700; color:var(--classic-blue); }
+.dz-sub{ margin:6px 0 10px 0; color:var(--muted); }
+.tiny{ margin:8px 0 0 0; color:#8ca0b3; font-size:.85rem; }
+
+/* ---------- Files table ---------- */
+.files-table{ margin-top:10px; border:1px solid var(--outline); border-radius:12px; overflow:auto; background:#fff; max-height:260px; }
+.files-table .row{ display:grid; grid-template-columns: 1fr 120px 120px; gap:10px; padding:10px 12px; border-bottom:1px solid var(--outline); }
+.files-table .row.head{ background:#f3f6fc; font-weight:700; color:var(--classic-blue); position:sticky; top:0; z-index:1; }
+.files-table .row.empty{ color:var(--muted); }
+
+/* ---------- Buttons ---------- */
+.btn{
+  border:1px solid var(--accent);
+  background:#fff;
+  color:var(--accent);
+  padding:10px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  transition: background .12s ease, color .12s ease, box-shadow .12s ease;
+}
+.btn:hover{ background:var(--hover-surface); box-shadow: var(--focus-ring); }
+.btn.primary{ background: var(--accent); color:#fff; }
+.btn.primary:hover{ background:#3e68f0; box-shadow: var(--focus-ring); }
+.btn.ghost{
+  border:1px solid var(--outline);
+  color:var(--text);
+}
+.btn[disabled]{ opacity:.6; cursor:not-allowed; }
+
+/* ---------- Footer ---------- */
+.footer{
+  padding:14px 16px; border-top:1px solid var(--outline);
+  color:var(--muted); font-size:.85rem; background:#fff;
+}
+
+/* === Step chip (1–4) ========================================= */
+.step-chip{
+  display:inline-grid; place-items:center;
+  width:26px; height:26px; margin-right:8px;
+  border-radius:999px; font-size:.82rem; font-weight:700;
+  color:#fff; background:#4f7cff;            /* brand blue */
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(79,124,255,.18);
+  user-select:none;
+}
+.step-chip.completed{ background:#12a150; box-shadow:0 0 0 2px #fff, 0 0 0 3px rgba(18,161,80,.18); } /* green */
+.step-chip.disabled{  background:#a7b5d9; }  /* muted, optional */
+
+/* === Tall cards: ~35–38vh with scrollable body =============== */
+.pill-card.tall{
+  /* lock the overall card height; body will scroll */
+  height: 35vh; 
+  display:flex; flex-direction:column;
+}
+.pill-card .card-head{ flex:0 0 auto; }
+.pill-card .card-body{
+  flex:1 1 auto;
+  min-height:0;               /* critical for nested flex scrolling */
+  overflow:auto;
+  margin-top:6px;
+}
+
+/* Comfort inside scroll areas (lists + tables) */
+#card-routines .checklist,
+#card-reports  .checklist{
+  max-height:none;            /* inherit scroll from .card-body */
+  margin:0; padding:0;
+}
+
+/* Files table behaves inside scrollable card body */
+#card-status .files-table{
+  max-height:none;            /* inherit scroll from .card-body */
+  border-radius:12px;
+}
+
+/* Keep footer actions visible in the staged-files card */
+#card-status .actions{
+  position: sticky;
+  bottom: 0;
+  background: var(--panel);
+  padding-top: 10px;
+  margin-top: 8px;
+  z-index: 1;
+}
+
+/* Optional: nicer inner scrollbars (Chromium/WebKit) */
+.pill-card .card-body::-webkit-scrollbar{ width:10px; height:10px; }
+.pill-card .card-body::-webkit-scrollbar-thumb{ background:#cbd6f1; border-radius:8px; }
+.pill-card .card-body::-webkit-scrollbar-track{ background:#eef3ff; border-radius:8px; }
+
+/* === Footer =================================================== */
+.footer{
+  display:flex; align-items:center; justify-content:space-between;
+}
+.footer .dev-toggle{
+  padding:8px 10px;
+}
+
+/* === Modal ==================================================== */
+.modal[aria-hidden="true"]{ display:none; }
+.modal{ position:fixed; inset:0; z-index:50; }
+.modal-backdrop{ position:absolute; inset:0; background:rgba(13,42,102,.18); }
+
+.modal-panel{
+  position:relative; max-width:560px; width:calc(100% - 24px);
+  margin:60px auto; background:#fff; border:1px solid var(--outline);
+  border-radius:14px; box-shadow: var(--shadow-1);
+  display:flex; flex-direction:column;
+}
+.modal-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px; border-bottom:1px solid var(--outline);
+}
+.modal-body{ padding:14px 16px; max-height:60vh; overflow:auto; }
+
+.modal-actions{
+  padding:12px 16px; border-top:1px solid var(--outline);
+  display:flex; gap:10px; justify-content:flex-end;
+}
+
+.icon-btn{
+  background:#fff; border:1px solid var(--outline);
+  border-radius:8px; padding:4px 8px; cursor:pointer;
+}
+.form-row{ margin-bottom:14px; }
+.form-row label{
+  display:block; font-weight:700; color:var(--classic-blue); margin-bottom:6px;
+}
+.select{
+  width:100%; padding:10px 12px; border-radius:10px;
+  border:1px solid var(--outline); background:#fff; color:var(--text);
+}
+.modal .checklist{ max-height:240px; overflow:auto; }
+
+/* Dropzone: active drag state */
+.dropzone.drag{
+  background:#eef6ff;
+  border-color:#7fa6ff;
+  box-shadow: var(--focus-ring);
+}
+
+/* Generic status chips used in lists/tables */
+.status{
+  display:inline-block;
+  min-width:80px;
+  text-align:center;
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid var(--outline);
+  background:#f7f9fc;
+  color:var(--neutral);
+  font-size:.8rem;
+  font-weight:600;
+}
+.status.pass   { color:#0a7d38; background:#eef9f2; border-color:#cde8d5; }
+.status.fail   { color:#b42318; background:#fff0f0; border-color:#ffd9d9; }
+.status.pending{ color:#8a6a00; background:#fff8e1; border-color:#ffe5a3; }
+
+/* Strong focus ring for interactive elements */
+:where(.btn,.icon-btn,.select,.chk input[type="checkbox"], .dropzone):focus-visible{
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+@media (max-width: 560px){
+  .logo.kpmg{ height:40px; }
+  .logo.apex{ height:48px; }
+  .product-title{ font-size:.95rem; }
+  .session-mini{ font-size:.85rem; gap:10px; }
+}
+
+/* Visually hidden (for a11y text that should be read, not seen) */
+.sr-only{
+  position:absolute!important;
+  width:1px!important; height:1px!important;
+  margin:-1px!important; border:0!important; padding:0!important;
+  overflow:hidden!important; clip:rect(0 0 0 0)!important; clip-path: inset(50%)!important; white-space:nowrap!important;
+}
+
+/* Muted link-look button (nice for 'Skip Animation') */
+.btn.link{
+  border-color: transparent;
+  background: transparent;
+  color: var(--accent);
+  padding: 0;
+}
+.btn.link:hover{ text-decoration: underline; box-shadow:none; }
+

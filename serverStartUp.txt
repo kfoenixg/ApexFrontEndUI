@@ -1,0 +1,4 @@
+
+cd C:\Development\ApexFrontEndUI
+
+C:\Development\node\node.exe server.js

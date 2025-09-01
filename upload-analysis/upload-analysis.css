@@ -1,0 +1,194 @@
+/* ================== Upload Analysis (scoped) ==================
+   All rules are under body.apex.ua to avoid collisions.
+=============================================================== */
+
+/* Layout: make page fill height so footer sits at bottom */
+body.apex.ua{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page head: a touch more breathing room */
+body.apex.ua .ua-pagehead{
+  padding-top: 14px;
+  padding-bottom: 4px;
+}
+
+/* Main area centers the card; grows to push footer down */
+body.apex.ua .ua-main{
+  flex: 1 1 auto;
+  display: grid;
+  place-items: start center;      /* centered horizontally, near top vertically */
+  padding: 8px 16px 24px;
+}
+
+/* Card sizing + structure (override global 35vh) */
+body.apex.ua .pill-card.tall{
+  width: min(100%, 980px);
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  height: auto;                  /* <-- override global fixed height */
+  position: relative;
+}
+
+/* Header row + progress badge alignment */
+body.apex.ua .ua-head{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+
+/* Card body holds the status shell; rows scroll inside viewport */
+body.apex.ua .ua-body{
+  flex: 1 1 auto;
+  min-height: 0;                  /* critical for nested flex scrolling */
+  margin-top: 6px;
+}
+
+/* Status table shell — expands naturally, capped at 60vh */
+body.apex.ua .ua-status{
+  border:1px solid var(--outline);
+  border-radius:12px;
+  background:#fff;
+  overflow:hidden;
+  box-shadow: var(--shadow-1);
+
+  /* let height be content-driven, but cap it */
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🔑 Loader overlay anchor */
+#ua-status-block {
+  position: relative; /* ensures .ua-loader centers on this block */
+}
+
+/* Sticky header at top */
+body.apex.ua .ua-thead{
+  display:grid;
+  grid-template-columns: 1fr 160px 160px;
+  gap:10px;
+  padding:10px 12px;
+  background:#f3f6fc;
+  color:var(--classic-blue);
+  font-weight:700;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-bottom:1px solid var(--outline);
+  text-align: center;
+}
+body.apex.ua .ua-thead .c-report{ text-align:left; }
+body.apex.ua .ua-thead .c-found,
+body.apex.ua .ua-thead .c-mapped{ text-align:center; }
+
+/* Rows area: scroll only if taller than 60vh */
+body.apex.ua .ua-viewport{
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+/* Row styling */
+body.apex.ua .ua-viewport .row{
+  display:grid;
+  grid-template-columns: 1fr 160px 160px;
+  gap:10px;
+  padding:10px 12px;
+  border-bottom:1px solid var(--outline);
+}
+
+/* Report name cell */
+body.apex.ua .ua-viewport .row > div:first-child{
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.25;
+  text-align:left;
+}
+
+/* Center the status badges in the last two columns */
+body.apex.ua .ua-viewport .row > div:nth-child(2),
+body.apex.ua .ua-viewport .row > div:nth-child(3){
+  display:flex; align-items:center; justify-content:center;
+  text-align:center;
+}
+
+/* Badge states */
+body.apex.ua .badge.fail{
+  color:#b42318;
+  border-color:#ffd9d9;
+  background:#fff0f0;
+}
+
+/* Actions */
+body.apex.ua .ua-actions{
+  padding-top: 18px !important;
+  margin-top: 14px !important;
+}
+
+/* Footer */
+body.apex.ua .footer{
+  margin-top: 0;
+  border-top:1px solid var(--outline);
+  background:#fff;
+}
+
+/* --- Yes/No chips --- */
+body.apex.ua .ua-viewport .badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:28px;
+  min-width:56px;
+  padding:0 10px;
+  border-radius:999px;
+  font-size:.85rem;
+  font-weight:600;
+  text-transform:none;
+}
+body.apex.ua .ua-viewport .badge.neutral{
+  background:#f8fafc;
+  border-color:#e2e8f0;
+  color:#64748b;
+}
+body.apex.ua .ua-viewport .badge.neutral::before{
+  content:"–";
+}
+body.apex.ua .ua-viewport .badge.success{
+  background:#eef9f2;
+  border-color:#cde8d5;
+  color:#0a7d38;
+}
+body.apex.ua .ua-viewport .badge.fail{
+  background:#fff0f0;
+  border-color:#ffd9d9;
+  color:#b42318;
+}
+body.apex.ua .ua-viewport .row > div:nth-child(2),
+body.apex.ua .ua-viewport .row > div:nth-child(3){
+  display:flex; align-items:center; justify-content:center; text-align:center;
+}
+
+/* ---------- Upload Analysis: Loader overlay inside table block ---------- */
+.ua-loader {
+  position: absolute;             /* overlay inside #ua-status-block */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;                   /* sits above the table until hidden */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;        /* no background box */
+  pointer-events: none;           /* let clicks pass through if needed */
+}
+
+/* Loader canvas sizing */
+.ua-loader canvas {
+  width: 350px;            
+  height: 240px;
+  display: block;
+  background: transparent;
+}

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>APEX — Field Selector</title>
+
+  <!-- Base + page css -->
+  <link rel="stylesheet" href="../styles.css"/>
+  <link rel="stylesheet" href="./fieldSelector.css"/>
+</head>
+<body class="apex fs">
+  <!-- Top Header -->
+  <header class="topbar">
+    <div class="brand">
+      <img src="../assets/KPMG_logo.png" alt="KPMG" class="logo kpmg"/>
+      <div class="divider"></div>
+      <img src="../assets/Apex_logo.png" alt="APEX" class="logo apex"/>
+      <h1 class="product-title">APEX — Field Selector</h1>
+    </div>
+    <div class="session-mini">
+      <span class="mini-item" id="mini-engagement">Engagement: <strong>—</strong></span>
+      <span class="mini-item" id="mini-period">Period End: <strong>—</strong></span>
+      <span class="mini-item" id="mini-admin">Admin: <strong>—</strong></span>
+    </div>
+  </header>
+
+  <!-- Progress (Data Mapping active) -->
+  <nav class="progress">
+    <ol>
+      <li><span class="step-dot"></span> Engagement Setup</li>
+      <li><span class="step-dot"></span> Fund Scoping</li>
+      <li><span class="step-dot"></span> Routine Selection</li>
+      <li><span class="step-dot"></span> Data Import</li>
+      <li class="active"><span class="step-dot"></span> Data Mapping</li>
+      <li><span class="step-dot"></span> Process</li>
+    </ol>
+  </nav>
+
+  <!-- Page head -->
+  <section class="page-head fs-pagehead">
+    <h2>Report Selector</h2>
+  </section>
+
+  <!-- Single centered card (one container) -->
+  <main class="fs-main">
+    <section class="pill-card tall" id="fs-card">
+      <div class="card-head fs-head">
+        <h3 id="fs-title">
+          Please select the file that contains the
+          <span id="fs-report-name">—</span> report
+        </h3>
+        <div class="spacer"></div>
+        <button class="btn ghost" id="fs-skip">Skip for now</button>
+      </div>
+
+      <div class="card-body fs-body">
+        <!-- Instruction + file options (single container) -->
+        <div class="fs-filepicker" id="fs-filepicker">
+          <p class="sub" id="fs-instructions">
+            Choose one file from your staged uploads. If there’s only one, we’ll auto-select it.
+          </p>
+
+          <div id="fs-file-list" class="file-list" role="radiogroup" aria-label="Available files">
+            <!-- JS will render radio options here -->
+          </div>
+
+          <div class="tiny muted" id="fs-help">
+            Don’t see the correct file? You can skip for now or return to Data Import to upload additional files.
+          </div>
+        </div>
+
+        <!-- Empty state (shown if no staged files) -->
+        <div class="fs-empty" id="fs-empty" hidden>
+          <p>No staged files found. Return to Data Import to upload files.</p>
+          <button class="btn" id="fs-go-upload">Go to Data Import</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="muted">© KPMG — APEX module (prototype)</div>
+  </footer>
+
+  <script src="../script.js" defer></script>
+  <script src="./fieldSelector.js" defer></script>
+</body>
+</html>

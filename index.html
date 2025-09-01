@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>APEX — Data Preprocessing Station</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="APEX front-end for AMAP: select routines, stage files, and prepare data for mapping and processing." />
+</head>
+<body class="apex">
+  <noscript>
+    <div style="padding:12px;background:#fff3cd;color:#664d03;border:1px solid #ffecb5;">
+      JavaScript is required to use APEX. Please enable it and reload.
+    </div>
+  </noscript>
+
+  <!-- Top Header (logos + product) -->
+  <header class="topbar" role="banner">
+    <div class="brand">
+      <img src="assets/KPMG_logo.png" alt="KPMG" class="logo kpmg" />
+      <div class="divider" aria-hidden="true"></div>
+      <img src="assets/Apex_logo.png" alt="APEX" class="logo apex" />
+      <h1 class="product-title">APEX — Data Preprocessing Station</h1>
+    </div>
+    <div class="session-mini" aria-label="Current selection summary">
+      <span class="mini-item" id="mini-engagement">Engagement: <strong>—</strong></span>
+      <span class="mini-item" id="mini-period">Period End: <strong>—</strong></span>
+      <span class="mini-item" id="mini-admin">Admin: <strong>—</strong></span>
+    </div>
+  </header>
+
+  <!-- AMAP-style progress bar -->
+  <nav class="progress" aria-label="Progress">
+    <ol>
+      <li><span class="step-dot" aria-hidden="true"></span> Engagement Setup</li>
+      <li><span class="step-dot" aria-hidden="true"></span> Fund Scoping</li>
+      <li><span class="step-dot" aria-hidden="true"></span> Routine Selection</li>
+      <li class="active" aria-current="step"><span class="step-dot" aria-hidden="true"></span> Data Import</li>
+      <li><span class="step-dot" aria-hidden="true"></span> Data Mapping</li>
+      <li><span class="step-dot" aria-hidden="true"></span> Process</li>
+    </ol>
+  </nav>
+
+  <!-- Page Title Row -->
+  <section class="page-head">
+    <h2>Data Import</h2>
+  </section>
+
+  <!-- Grid of pill cards -->
+  <main class="grid">
+    <!-- TOP ROW -->
+    <!-- Step 1: Routines -->
+    <section class="pill-card span-6 tall" id="card-routines">
+      <div class="card-head">
+        <h3><span class="step-chip">1</span> Selected Routines</h3>
+        <span class="badge info" title="Sourced from AMAP">from AMAP</span>
+      </div>
+      <p class="sub">Uncheck to skip for now. You can return anytime.</p>
+      <div class="card-body">
+        <ul class="checklist" id="routine-list" aria-label="Routines">
+          <!-- JS will render -->
+        </ul>
+      </div>
+    </section>
+
+    <!-- Step 2: Reports -->
+    <section class="pill-card span-6 tall" id="card-reports">
+      <div class="card-head">
+        <h3><span class="step-chip">2</span> Expected Reports</h3>
+        <span class="badge success" id="reports-required-count" aria-live="polite">0 required</span>
+      </div>
+      <p class="sub">Pre-checked based on selected routines. Uncheck any you don’t have yet.</p>
+      <div class="card-body">
+        <ul class="checklist" id="report-list" aria-label="Reports">
+          <!-- JS will render -->
+        </ul>
+      </div>
+    </section>
+
+    <!-- BOTTOM ROW -->
+    <!-- Step 3: Upload -->
+    <section class="pill-card span-6 tall" id="card-upload">
+      <div class="card-head">
+        <h3><span class="step-chip">3</span> Upload Files</h3>
+        <span class="badge neutral">filename-agnostic</span>
+      </div>
+      <div class="card-body">
+        <div class="dropzone" role="region" aria-label="File upload area" tabindex="0">
+          <p class="dz-title">Drag &amp; drop files here</p>
+          <p class="dz-sub">or</p>
+          <button class="btn" type="button" id="choose-files-btn" aria-describedby="accepted-types">Choose files</button>
+          <input
+            id="file-input"
+            type="file"
+            multiple
+            hidden
+            accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          />
+          <p class="tiny" id="accepted-types">Accepted: CSV, XLSX (more soon)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 4: Confirm/Staged -->
+    <section class="pill-card span-6 tall" id="card-status">
+      <div class="card-head">
+        <h3><span class="step-chip">4</span> Confirm Files for Upload</h3>
+        <span class="badge neutral" id="staged-count" aria-live="polite">0</span>
+      </div>
+      <div class="card-body">
+        <div class="files-table" aria-live="polite" id="staged-list">
+          <div class="row head" role="row">
+            <div role="columnheader">Filename</div>
+            <div role="columnheader">Size</div>
+            <div role="columnheader">Status</div>
+          </div>
+          <div class="row empty" id="no-files-row" role="row">
+            <div role="cell">No files yet</div>
+            <div role="cell">—</div>
+            <div role="cell">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn ghost" type="button" id="clear-staged-btn">Clear</button>
+        <button class="btn primary" type="button" id="continue-btn" disabled>Continue</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer with Dev Mode -->
+  <footer class="footer">
+    <div class="muted">© KPMG — APEX module (prototype)</div>
+    <button class="btn ghost dev-toggle" id="dev-toggle" type="button">Dev Mode</button>
+  </footer>
+
+  <!-- Dev Mode Modal -->
+  <div class="modal" id="dev-modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="dev-title">
+      <div class="modal-head">
+        <h3 id="dev-title">Dev Mode — Configure Feed</h3>
+        <button class="icon-btn" title="Close" type="button" data-close aria-label="Close dialog">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-row">
+          <label for="dev-admin">Administrator</label>
+          <select id="dev-admin" class="select"></select>
+        </div>
+
+        <div class="form-row">
+          <label for="dev-engagement">Engagement</label>
+          <select id="dev-engagement" class="select"></select>
+        </div>
+
+        <div class="form-row">
+          <label>Routines</label>
+          <ul class="checklist" id="dev-routines" aria-label="Routines (Dev)"></ul>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn ghost" type="button" data-close>Cancel</button>
+        <button class="btn primary" type="button" id="dev-apply">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+  <script src="xlsx.full.min.js"></script>
+</body>
+</html>
