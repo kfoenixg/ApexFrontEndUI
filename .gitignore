@@ -1,17 +1,42 @@
 ﻿# Node
 node_modules/
 npm-debug.log*
-yarn.lock
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 package-lock.json
 
-# Upload artifacts
-uploads/
-*.tmp
-*.log
+# Env / secrets
+.env
+.env.*.local
 
-# OS cruft
+# Build / tooling
+dist/
+build/
+coverage/
+.cache/
+.tmp/
+
+# VS Code / OS junk
+.vscode/
+.history/
 .DS_Store
 Thumbs.db
 
-# Local env
-.env
+# Logs
+*.log
+logs/
+*.pid
+*.seed
+*.pid.lock
+
+# Zips & misc binaries (keep example data you actually need)
+*.zip
+*.7z
+*.tar
+*.tar.gz
+*.tgz
+
+# Python/other caches if they sneak in
+__pycache__/
+*.pyc
